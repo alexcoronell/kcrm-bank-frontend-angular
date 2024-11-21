@@ -13,11 +13,11 @@ export class AuthService {
   private http = inject(HttpClient);
 
   login = async (dto: LoginDto) =>
-    await this.http.post(`${this.url}/login`, dto, { withCredentials: true });
+    await this.http.post(`${this.url}/login`, dto);
 
   logout = async () =>
-    await this.http.get(`${this.url}/logout`, { withCredentials: true });
+    await this.http.get(`${this.url}/logout`);
 
   verifySession = async () =>
-    await this.http.get(`${this.url}/verify-sesion`, { withCredentials: true });
+    await this.http.get(`${this.url}/verify-sesion`);
 }

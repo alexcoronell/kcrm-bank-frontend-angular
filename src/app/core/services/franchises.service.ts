@@ -13,19 +13,17 @@ export class FranchisesService {
   private http = inject(HttpClient);
 
   getAll = async (page = 1, limit = 10) =>
-    await this.http.get(`${this.url}?page=${page}&limit=${limit}`, {
-      withCredentials: true,
-    });
+    await this.http.get(`${this.url}?page=${page}&limit=${limit}`);
 
   get = async (id: Franchise['id']) =>
-    await this.http.get(`${this.url}/${id}`, { withCredentials: true });
+    await this.http.get(`${this.url}/${id}`);
 
   create = async (dto: CreateFranchiseDto) =>
-    await this.http.post(`url`, dto, { withCredentials: true });
+    await this.http.post(`url`, dto);
 
   update = async (id: Franchise['id'], dto: UpdateFracchiseDto) =>
-    await this.http.put(`${this.url}/${id}`, dto, { withCredentials: true });
+    await this.http.put(`${this.url}/${id}`, dto);
 
   delete = async (id: Franchise['id']) =>
-    await this.http.delete(`${this.url}/${id}`, { withCredentials: true });
+    await this.http.delete(`${this.url}/${id}`);
 }
