@@ -9,7 +9,7 @@ import { Franchise } from '../models/Franchise.interface';
   providedIn: 'root',
 })
 export class FranchisesService {
-  private url = environment.apiURL;
+  private url = environment.apiURL + '/franchises';
   private http = inject(HttpClient);
 
   getAll = async (page = 1, limit = 10) =>

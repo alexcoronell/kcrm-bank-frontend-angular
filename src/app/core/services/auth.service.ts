@@ -8,7 +8,7 @@ import { LoginDto } from '../dtos/Login.dto';
   providedIn: 'root',
 })
 export class AuthService {
-  private url = environment.apiURL;
+  private url = environment.apiURL + '/auth';
 
   private http = inject(HttpClient);
 
