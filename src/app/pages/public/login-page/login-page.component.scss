@@ -1,0 +1,15 @@
+.LoginPage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+
+  &__container {
+    width: 100%;
+    max-width: 450px;
+    border: 1px solid #FFFFFF50;
+    text-align: center;
+    padding: 2rem 3rem;
+  }
+}
