@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import type { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
@@ -10,7 +10,6 @@ export const routes: Routes = [
   },
   {
     path: 'app',
-    loadComponent: () => import('./components/layouts/layout/layout.component').then((c) => c.LayoutComponent),
     children: [
       {
         path: 'dashboard',

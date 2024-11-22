@@ -1,3 +1,27 @@
-<app-header />
-<router-outlet />
+<header class="Header">
+  <mat-toolbar class="Header">
+      <button mat-icon-button aria-label="Open/Close Menu" (click)="drawer.toggle()" [ngClass]="{'opacity-10' : !authStateService.isLogged}" [disabled]="!authStateService.isLogged">
+        <mat-icon>menu</mat-icon>
+      </button>
+    <span>KCRM Bank</span>
+    <span class="spacer"></span>
+    @if (authStateService.isLogged) {
+    <p>Hola, {{authStateService.currentUser?.name}}</p>
+    <button mat-button aria-label="Logout" (click)="logout()">Salir</button>
+    }
+  </mat-toolbar>
+</header>
+<div class="container">
+  <mat-drawer-container autosize>
+    <mat-drawer #drawer mode="side" class="area-menu">
+      MENU
+    </mat-drawer>
+
+    <div class="content">
+      <router-outlet />
+    </div>
+
+  </mat-drawer-container>
+
+</div>
 <app-footer />
