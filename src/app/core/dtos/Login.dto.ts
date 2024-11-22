@@ -3,5 +3,5 @@ import { User } from '../models/User,interface';
 export interface LoginDto
   extends Omit<
     User,
-    'id' | 'createAt' | 'updateAt' | 'active' | 'deleted' | 'role'
+    'id' | 'name' | 'createAt' | 'updateAt' | 'active' | 'deleted' | 'role'
   > {}
