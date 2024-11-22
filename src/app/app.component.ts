@@ -6,6 +6,7 @@ import { RouterOutlet } from '@angular/router';
 import { MaterialModule } from './modules/material/material.module';
 
 /* Components */
+import { MenuComponent } from './components/menu/menu.component';
 import { FooterComponent } from './components/layouts/footer/footer.component';
 
 /* Services */
@@ -14,7 +15,13 @@ import { AuthService } from './core/services/auth.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule, MaterialModule, FooterComponent],
+  imports: [
+    RouterOutlet,
+    CommonModule,
+    MaterialModule,
+    MenuComponent,
+    FooterComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

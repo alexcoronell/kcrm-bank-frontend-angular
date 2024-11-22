@@ -19,14 +19,14 @@ export const routes: Routes = [
           ).then((c) => c.DashboardPageComponent),
       },
       {
-        path: 'franchises',
+        path: 'franquicias',
         loadComponent: () =>
           import(
             './pages/private/franchises-page/franchises-page.component'
           ).then((c) => c.FranchisesPageComponent),
       },
       {
-        path: 'products',
+        path: 'productos',
         loadComponent: () =>
           import('./pages/private/products-page/products-page.component').then(
             (c) => c.ProductsPageComponent
@@ -40,14 +40,14 @@ export const routes: Routes = [
           ),
       },
       {
-        path: 'sales',
+        path: 'ventas',
         loadComponent: () =>
           import('./pages/private/sales-page/sales-page.component').then(
             (c) => c.SalesPageComponent
           ),
       },
       {
-        path: 'users',
+        path: 'usuarios',
         loadComponent: () =>
           import('./pages/private/users-page/users-page.component').then(
             (c) => c.UsersPageComponent
