@@ -1,1 +1,11 @@
-<p>header works!</p>
+<mat-toolbar class="Header">
+  <button mat-icon-button aria-label="Open/Close Menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>KCRM Bank</span>
+  <span class="spacer"></span>
+  <p>Hola, {{authStateService.currentUser?.name}}</p>
+  @if (authStateService.isLogged) {
+  <button mat-button aria-label="Logout">Salir</button>
+  }
+</mat-toolbar>
