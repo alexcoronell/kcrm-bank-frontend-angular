@@ -4,8 +4,8 @@
   </button>
   <span>KCRM Bank</span>
   <span class="spacer"></span>
-  <p>Hola, {{authStateService.currentUser?.name}}</p>
   @if (authStateService.isLogged) {
-  <button mat-button aria-label="Logout">Salir</button>
+  <p>Hola, {{authStateService.currentUser?.name}}</p>
+  <button mat-button aria-label="Logout" (click)="logout()">Salir</button>
   }
 </mat-toolbar>

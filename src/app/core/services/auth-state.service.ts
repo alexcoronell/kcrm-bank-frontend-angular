@@ -38,6 +38,7 @@ export class AuthStateService {
     this.userSignal.set(null);
     this.isAdmin.set(false);
     this.logged.set(false);
+    this.router.navigate(['/login']);
   }
 
   verifySession = () => {
