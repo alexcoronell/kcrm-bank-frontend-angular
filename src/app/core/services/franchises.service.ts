@@ -12,18 +12,15 @@ export class FranchisesService {
   private url = environment.apiURL + '/franchises';
   private http = inject(HttpClient);
 
-  getAll = async (page = 1, limit = 10) =>
-    await this.http.get(`${this.url}?page=${page}&limit=${limit}`);
+  getAll = (page = 1, limit = 10) =>
+    this.http.get(`${this.url}?page=${page}&limit=${limit}`);
 
-  get = async (id: Franchise['id']) =>
-    await this.http.get(`${this.url}/${id}`);
+  get = (id: Franchise['id']) => this.http.get(`${this.url}/${id}`);
 
-  create = async (dto: CreateFranchiseDto) =>
-    await this.http.post(`url`, dto);
+  create = (dto: CreateFranchiseDto) => this.http.post(`url`, dto);
 
-  update = async (id: Franchise['id'], dto: UpdateFracchiseDto) =>
-    await this.http.put(`${this.url}/${id}`, dto);
+  update = (id: Franchise['id'], dto: UpdateFracchiseDto) =>
+    this.http.put(`${this.url}/${id}`, dto);
 
-  delete = async (id: Franchise['id']) =>
-    await this.http.delete(`${this.url}/${id}`);
+  delete = (id: Franchise['id']) => this.http.delete(`${this.url}/${id}`);
 }
