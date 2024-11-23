@@ -1,4 +1,5 @@
 import { Component, inject, signal, effect } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 
 /* Modules */
 import { MaterialModule } from '../../../modules/material/material.module';
@@ -23,7 +24,7 @@ export class FranchisesComponent {
   private franchisesService = inject(FranchisesService);
 
   /****************************************** Signals ******************************************/
-  dataSource = signal<Franchise[]>([]);
+  dataSource: MatTableDataSource<Franchise[]>
   requestStatus = signal<RequestStatus>('init');
   page = signal<number>(0);
   limit = signal<number>(10);
@@ -42,7 +43,7 @@ export class FranchisesComponent {
     this.franchisesService.getAll(page, limit).subscribe({
       next: (res) => {
         const { items, count } = res as ItemsResponse;
-        this.dataSource.set(items);
+        this.dataSource = new MatTableDataSource<Franchise[]>(items)
         this.total.set(count);
         console.log(items)
       },
