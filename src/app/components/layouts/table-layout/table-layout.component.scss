@@ -1,0 +1,15 @@
+.TableLayout {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    flex-grow: 0;
+    text-align: center;
+  }
+
+  &__container {
+    flex-grow: 1;
+    padding: 1rem;
+  }
+}
