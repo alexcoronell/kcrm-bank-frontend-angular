@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { TableLayoutComponent } from '../../../components/layouts/table-layout/table-layout.component';
 import { TableButtonsComponent } from '../../../components/layouts/table-buttons/table-buttons.component';
 import { FranchisesComponent } from '../../../components/tables/franchises/franchises.component';
@@ -11,4 +11,9 @@ import { FranchisesComponent } from '../../../components/tables/franchises/franc
 })
 export class FranchisesPageComponent {
   titlePage = 'Franquicias';
+  @ViewChild('franchisesComponent') franchisesComponent: FranchisesComponent;
+
+  refresh(){
+    this.franchisesComponent.getAll()
+  }
 }

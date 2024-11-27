@@ -39,13 +39,12 @@ export class FranchisesComponent {
   }
 
   /****************************************** GetAll ******************************************/
-  getAll(page: number, limit: number) {
+  getAll(page: number = this.page(), limit: number = this.limit()) {
     this.franchisesService.getAll(page, limit).subscribe({
       next: (res) => {
         const { items, count } = res as ItemsResponse;
         this.dataSource = new MatTableDataSource<Franchise[]>(items)
         this.total.set(count);
-        console.log(items)
       },
       error: (err) => console.error(err),
     });

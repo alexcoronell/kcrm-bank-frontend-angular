@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { MaterialModule } from '../../../modules/material/material.module';
 
 @Component({
@@ -7,4 +7,10 @@ import { MaterialModule } from '../../../modules/material/material.module';
   templateUrl: './table-buttons.component.html',
   styleUrl: './table-buttons.component.scss',
 })
-export class TableButtonsComponent {}
+export class TableButtonsComponent {
+  @Output() refresh = new EventEmitter<void>();
+
+  onRefresh() {
+    this.refresh.emit();
+  }
+}

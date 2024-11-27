@@ -1,4 +1,4 @@
 <app-table-layout [titlePage]="titlePage" >
-  <app-table-buttons />
-  <app-franchises />
+  <app-table-buttons (refresh)="refresh()" />
+  <app-franchises #franchisesComponent />
 </app-table-layout>
