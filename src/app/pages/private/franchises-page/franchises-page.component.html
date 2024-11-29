@@ -1,5 +1,5 @@
-<app-table-layout [titlePage]="titlePage" >
-  <app-table-buttons (refresh)="refresh()" />
+<app-table-layout [titlePage]="titlePage">
+  <app-table-buttons (refresh)="refresh()" (showForm)="handleShowForm()" />
   <app-franchises #franchisesComponent />
-  <app-franchises-form />
 </app-table-layout>
+<app-franchises-form [id]="id()" [showFormInput]="showForm()" />

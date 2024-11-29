@@ -9,8 +9,13 @@ import { MaterialModule } from '../../../modules/material/material.module';
 })
 export class TableButtonsComponent {
   @Output() refresh = new EventEmitter<void>();
+  @Output() showForm = new EventEmitter<void>();
 
   onRefresh() {
     this.refresh.emit();
+  }
+
+  handleShowForm() {
+    this.showForm.emit();
   }
 }
