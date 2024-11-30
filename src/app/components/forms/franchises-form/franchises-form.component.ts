@@ -27,6 +27,12 @@ import { LayoutFormComponent } from '../../layouts/layout-form/layout-form.compo
 /* Models */
 import { Franchise } from '../../../core/models/Franchise.interface';
 
+/* DTO's */
+import {
+  CreateFranchiseDto,
+  UpdateFracchiseDto,
+} from '../../../core/dtos/Franchise.dto';
+
 /* Types */
 import { RequestStatus } from '../../../core/types/RequestStatus.type';
 import { StatusMode } from '../../../core/types/StatusMode.type';
@@ -88,9 +94,39 @@ export class FranchisesFormComponent {
     console.log(id);
   }
 
+  /****** onSubmit ******/
+  onSubmit() {
+    if (!this.form.valid) return;
+    this.requestStatus.set('loading');
+    if (this.statusMode() === 'create') {
+      const dto: CreateFranchiseDto = {
+        name: this.form.get('nameFormControl')?.value,
+      };
+      this.franchisesService.create(dto).subscribe({
+        next: (res) => {
+          console.log(res);
+          this.requestStatus.set('success');
+          this.clear();
+        },
+        error: (err) => {
+          console.log(err);
+          this.requestStatus.set('failed');
+        },
+      });
+    }
+  }
+
+  /****** Clear Form ******/
+  clear() {
+    this.form.reset();
+    this.form.markAsPristine();
+    this.form.markAsUntouched();
+    this.form.updateValueAndValidity();
+  }
+
   /****** Close Form ******/
   close() {
-    this.form.reset();
+    this.clear();
     this.hideForm.emit();
   }
 }

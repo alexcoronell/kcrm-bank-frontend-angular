@@ -17,7 +17,7 @@ export class FranchisesService {
 
   get = (id: Franchise['id']) => this.http.get(`${this.url}/${id}`);
 
-  create = (dto: CreateFranchiseDto) => this.http.post(`url`, dto);
+  create = (dto: CreateFranchiseDto) => this.http.post(this.url, dto);
 
   update = (id: Franchise['id'], dto: UpdateFracchiseDto) =>
     this.http.put(`${this.url}/${id}`, dto);
