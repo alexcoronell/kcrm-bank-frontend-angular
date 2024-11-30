@@ -57,3 +57,13 @@ body {
   margin-top: 2rem;
   gap: 1rem;
 }
+
+.actions-columns {
+  button {
+    margin-right: 1rem;
+  }
+}
+
+.danger {
+  background-color: #B00020 !important;
+}
