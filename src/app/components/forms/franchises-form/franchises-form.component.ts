@@ -62,6 +62,7 @@ export class FranchisesFormComponent {
   /****************************************** Signals ******************************************/
   requestStatus = signal<RequestStatus>('init');
   statusMode = signal<StatusMode>('create');
+  franquise = signal<Franchise | null>(null);
 
   /****************************************** Properties ******************************************/
   title = 'Crear Franquicia';
@@ -77,6 +78,7 @@ export class FranchisesFormComponent {
         this.fetchData(id);
         this.title = 'Detalle de Franquicia';
         this.statusMode.set('detail');
+        this.form.controls['activeFormControl'].disable()
       }
     });
   }
@@ -86,12 +88,27 @@ export class FranchisesFormComponent {
   private buildForm() {
     this.form = this.formBuilder.group({
       nameFormControl: ['', [Validators.required]],
+      activeFormControl: [false]
     });
   }
 
   /****** Fetch Data ******/
   fetchData(id: Franchise['id']) {
-    console.log(id);
+    this.requestStatus.set('loading');
+    this.franchisesService.get(id).subscribe({
+      next: (res) => {
+        this.requestStatus.set('success');
+        this.franquise.set(res as Franchise)
+        this.form.patchValue({
+          nameFormControl: this.franquise()?.name,
+          activeFormControl: this.franquise()?.active
+        })
+      },
+      error: (err) => {
+        this.requestStatus.set('failed');
+        console.error(err);
+      },
+    });
   }
 
   /****** onSubmit ******/
@@ -128,5 +145,6 @@ export class FranchisesFormComponent {
   close() {
     this.clear();
     this.hideForm.emit();
+    this.statusMode.set('create')
   }
 }

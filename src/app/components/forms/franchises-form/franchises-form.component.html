@@ -2,13 +2,28 @@
 <app-layout-form [title]="title">
   <div class="FranchisesForm">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+      <!------------ Name ------------>
       <mat-form-field class="MatFormField">
         <mat-label>Nombre</mat-label>
-        <input type="text" matInput formControlName="nameFormControl" [errorStateMatcher]="errorNameFormControl" />
-        @if (form.controls['nameFormControl'].hasError('required') && form.controls['nameFormControl'].touched) {
+        <input
+          type="text"
+          matInput
+          formControlName="nameFormControl"
+          [errorStateMatcher]="errorNameFormControl"
+          readonly="statusMode === 'detail'"
+        />
+        @if (form.controls['nameFormControl'].hasError('required') &&
+        form.controls['nameFormControl'].touched) {
         <mat-error>El nombre es <strong>requirido</strong></mat-error>
         }
       </mat-form-field>
+
+      <!------------ Active ------------>
+      @if (statusMode() != 'create') {
+        <mat-checkbox formControlName="activeFormControl">Activa</mat-checkbox>
+      }
+
       <div class="FormButtonsArea">
         <button type="submit" mat-flat-button>Crear</button>
         <button type="button" mat-stroked-button (click)="close()">

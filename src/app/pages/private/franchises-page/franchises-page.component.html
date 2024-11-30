@@ -1,6 +1,6 @@
 <app-table-layout [titlePage]="titlePage">
   <app-table-buttons (refresh)="refresh()" (showForm)="handleShowForm()" />
-  <app-franchises #franchisesComponent />
+  <app-franchises #franchisesComponent (showForm)="handleShowForm($event)" />
 </app-table-layout>
 <app-franchises-form
   [id]="id()"

@@ -1,4 +1,4 @@
-import { Component, inject, signal, effect } from '@angular/core';
+import { Component, inject, signal, effect, Output, EventEmitter } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 
 /* Modules */
@@ -22,6 +22,8 @@ import { ItemsResponse } from '../../../core/interfaces/ItemsResponse';
 export class FranchisesComponent {
   /****************************************** Services ******************************************/
   private franchisesService = inject(FranchisesService);
+
+  @Output() showForm = new EventEmitter<Franchise['id']>();
 
   /****************************************** Signals ******************************************/
   dataSource: MatTableDataSource<Franchise[]>
@@ -48,5 +50,9 @@ export class FranchisesComponent {
       },
       error: (err) => console.error(err),
     });
+  }
+
+  showDetails(id: Franchise['id']) {
+    this.showForm.emit(id)
   }
 }

@@ -9,8 +9,11 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 
 [*.ts]
-quote_type = single
+quote_type = double
 ij_typescript_use_double_quotes = false
+
+[*.html]
+quote_type = double
 
 [*.md]
 max_line_length = off
