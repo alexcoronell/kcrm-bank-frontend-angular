@@ -2,4 +2,8 @@
   <app-table-buttons (refresh)="refresh()" (showForm)="handleShowForm()" />
   <app-franchises #franchisesComponent />
 </app-table-layout>
-<app-franchises-form [id]="id()" [showFormInput]="showForm()" />
+<app-franchises-form
+  [id]="id()"
+  [showForm]="showForm()"
+  (hideForm)="handleHideForm()"
+/>

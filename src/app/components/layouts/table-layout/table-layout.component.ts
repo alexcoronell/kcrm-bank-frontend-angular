@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-table-layout',
@@ -7,6 +7,5 @@ import { Component, Input } from '@angular/core';
   styleUrl: './table-layout.component.scss'
 })
 export class TableLayoutComponent {
-  @Input() titlePage: string;
-
+  titlePage = input.required<string>()
 }

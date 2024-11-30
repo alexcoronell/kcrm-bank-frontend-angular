@@ -1,10 +1,12 @@
 import {
   Component,
-  Input,
+  input,
   signal,
-  OnChanges,
-  SimpleChanges,
   inject,
+  effect,
+  Output,
+  EventEmitter,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   ReactiveFormsModule,
@@ -37,19 +39,23 @@ import { MyErrorStateMatcher } from '../../../core/helpers/MyErrorStateMatcher.h
   imports: [LayoutFormComponent, ReactiveFormsModule, MaterialModule],
   templateUrl: './franchises-form.component.html',
   styleUrl: './franchises-form.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FranchisesFormComponent implements OnChanges {
+export class FranchisesFormComponent {
   /****************************************** Services ******************************************/
   private formBuilder = inject(FormBuilder);
-  private franchisesService = inject(FranchisesService)
+  private franchisesService = inject(FranchisesService);
 
-  @Input() id: Franchise['id'] | null = null;
-  @Input() showFormInput = false;
+  /****************************************** Inputs ******************************************/
+  id = input<Franchise['id'] | null>(null);
+  showForm = input<boolean>(false);
+
+  /****************************************** Outputs ******************************************/
+  @Output() hideForm = new EventEmitter();
 
   /****************************************** Signals ******************************************/
   requestStatus = signal<RequestStatus>('init');
   statusMode = signal<StatusMode>('create');
-  showForm = signal<boolean>(false);
 
   /****************************************** Properties ******************************************/
   title = 'Crear Franquicia';
@@ -59,30 +65,32 @@ export class FranchisesFormComponent implements OnChanges {
   /****************************************** Contructor ******************************************/
   constructor() {
     this.buildForm();
-  }
-
-  /****************************************** OnChanges ******************************************/
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['id'] && changes['id'].currentValue) {
-      this.fetchData(changes['id'].currentValue);
-      this.title = "Detalle de Franquicia"
-    }
-    if (changes['showFormInput'] && changes['showFormInput'].currentValue) {
-      console.log(changes['showFormInput'].currentValue);
-      this.showForm.set(changes['showFormInput'].currentValue);
-    }
+    effect(() => {
+      const id = this.id();
+      if (id) {
+        this.fetchData(id);
+        this.title = 'Detalle de Franquicia';
+        this.statusMode.set('detail');
+      }
+    });
   }
 
   /****************************************** Methods ******************************************/
-   /****** Build Form ******/
-   private buildForm(){
+  /****** Build Form ******/
+  private buildForm() {
     this.form = this.formBuilder.group({
-      nameFormControl :['', [Validators.required]]
-    })
-   }
+      nameFormControl: ['', [Validators.required]],
+    });
+  }
 
-   /****** Fetch Data ******/
+  /****** Fetch Data ******/
   fetchData(id: Franchise['id']) {
     console.log(id);
+  }
+
+  /****** Close Form ******/
+  close() {
+    this.form.reset();
+    this.hideForm.emit();
   }
 }

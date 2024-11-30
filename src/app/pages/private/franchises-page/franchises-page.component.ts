@@ -1,4 +1,9 @@
-import { Component, ViewChild, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewChild,
+  signal,
+} from '@angular/core';
 import { TableLayoutComponent } from '../../../components/layouts/table-layout/table-layout.component';
 import { TableButtonsComponent } from '../../../components/layouts/table-buttons/table-buttons.component';
 import { FranchisesComponent } from '../../../components/tables/franchises/franchises.component';
@@ -17,6 +22,7 @@ import { Franchise } from '../../../core/models/Franchise.interface';
   ],
   templateUrl: './franchises-page.component.html',
   styleUrl: './franchises-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FranchisesPageComponent {
   titlePage = 'Franquicias';

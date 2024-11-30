@@ -1,7 +1,7 @@
 @if (showForm()) {
 <app-layout-form [title]="title">
   <div class="FranchisesForm">
-    <form [formGroup]="form" >
+    <form [formGroup]="form">
       <mat-form-field class="MatFormField">
         <mat-label>Nombre</mat-label>
         <input
@@ -16,7 +16,9 @@
       </mat-form-field>
       <div class="FormButtonsArea">
         <button type="submit" mat-flat-button>Crear</button>
-        <button type="button" mat-stroked-button>Cerrar</button>
+        <button type="button" mat-stroked-button (click)="close()">
+          Cerrar
+        </button>
       </div>
     </form>
   </div>
