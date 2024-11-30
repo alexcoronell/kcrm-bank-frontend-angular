@@ -50,3 +50,10 @@ body {
     padding: 2rem;
   }
 }
+
+.FormButtonsArea {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  margin-top: 2rem;
+  gap: 1rem;
+}

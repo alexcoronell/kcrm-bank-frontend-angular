@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-layout-form',
@@ -7,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrl: './layout-form.component.scss'
 })
 export class LayoutFormComponent {
+  @Input() title: string;
 
 }

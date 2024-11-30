@@ -1,5 +1,24 @@
 @if (showForm()) {
-<app-layout-form>
-  <p>franchises-form works!</p>
+<app-layout-form [title]="title">
+  <div class="FranchisesForm">
+    <form [formGroup]="form" >
+      <mat-form-field class="MatFormField">
+        <mat-label>Nombre</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="nameFormControl"
+          [errorStateMatcher]="errorNameFormControl"
+        />
+        @if (form.controls['nameFormControl'].hasError('required')) {
+        <mat-error>El nombre es <strong>requirido</strong></mat-error>
+        }
+      </mat-form-field>
+      <div class="FormButtonsArea">
+        <button type="submit" mat-flat-button>Crear</button>
+        <button type="button" mat-stroked-button>Cerrar</button>
+      </div>
+    </form>
+  </div>
 </app-layout-form>
 }
