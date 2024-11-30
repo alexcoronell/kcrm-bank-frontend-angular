@@ -1,18 +1,13 @@
 @if (showForm()) {
-<app-layout-form [title]="title">
+<app-layout-form [title]="title()">
   <div class="FranchisesForm">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
       <!------------ Name ------------>
       <mat-form-field class="MatFormField">
         <mat-label>Nombre</mat-label>
-        <input
-          type="text"
-          matInput
-          formControlName="nameFormControl"
-          [errorStateMatcher]="errorNameFormControl"
-          readonly="statusMode === 'detail'"
-        />
+        <input type="text" matInput formControlName="nameFormControl" [errorStateMatcher]="errorNameFormControl"
+          [readonly]="statusMode() === 'detail'" />
         @if (form.controls['nameFormControl'].hasError('required') &&
         form.controls['nameFormControl'].touched) {
         <mat-error>El nombre es <strong>requirido</strong></mat-error>
@@ -21,14 +16,25 @@
 
       <!------------ Active ------------>
       @if (statusMode() != 'create') {
-        <mat-checkbox formControlName="activeFormControl">Activa</mat-checkbox>
+      <mat-checkbox formControlName="activeFormControl">Activa</mat-checkbox>
       }
 
       <div class="FormButtonsArea">
+        @if (statusMode() === 'create') {
         <button type="submit" mat-flat-button>Crear</button>
+        }
+        @if (statusMode() === 'detail') {
+        <button type="button" mat-flat-button (click)="setEditMode()">Editar</button>
+        }
+        @if (statusMode() === 'create' || statusMode() === 'detail') {
         <button type="button" mat-stroked-button (click)="close()">
           Cerrar
         </button>
+        }
+        @if (statusMode() === 'edit') {
+        <button type="submit" mat-flat-button>Guardar</button>
+        <button type="button" mat-stroked-button (click)="unsetEditMode()">Cancelar</button>
+        }
       </div>
     </form>
   </div>

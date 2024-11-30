@@ -7,44 +7,44 @@ import {
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
-} from '@angular/core';
+} from "@angular/core";
 import {
   ReactiveFormsModule,
   FormBuilder,
   FormGroup,
   Validators,
-} from '@angular/forms';
+} from "@angular/forms";
 
 /* Services */
-import { FranchisesService } from '../../../core/services/franchises.service';
+import { FranchisesService } from "../../../core/services/franchises.service";
 
 /* Modules */
-import { MaterialModule } from '../../../modules/material/material.module';
+import { MaterialModule } from "../../../modules/material/material.module";
 
 /* Componets */
-import { LayoutFormComponent } from '../../layouts/layout-form/layout-form.component';
+import { LayoutFormComponent } from "../../layouts/layout-form/layout-form.component";
 
 /* Models */
-import { Franchise } from '../../../core/models/Franchise.interface';
+import { Franchise } from "../../../core/models/Franchise.interface";
 
 /* DTO's */
 import {
   CreateFranchiseDto,
   UpdateFracchiseDto,
-} from '../../../core/dtos/Franchise.dto';
+} from "../../../core/dtos/Franchise.dto";
 
 /* Types */
-import { RequestStatus } from '../../../core/types/RequestStatus.type';
-import { StatusMode } from '../../../core/types/StatusMode.type';
+import { RequestStatus } from "../../../core/types/RequestStatus.type";
+import { StatusMode } from "../../../core/types/StatusMode.type";
 
 /* Helpers */
-import { MyErrorStateMatcher } from '../../../core/helpers/MyErrorStateMatcher.helper';
+import { MyErrorStateMatcher } from "../../../core/helpers/MyErrorStateMatcher.helper";
 
 @Component({
-  selector: 'app-franchises-form',
+  selector: "app-franchises-form",
   imports: [LayoutFormComponent, ReactiveFormsModule, MaterialModule],
-  templateUrl: './franchises-form.component.html',
-  styleUrl: './franchises-form.component.scss',
+  templateUrl: "./franchises-form.component.html",
+  styleUrl: "./franchises-form.component.scss",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FranchisesFormComponent {
@@ -53,19 +53,20 @@ export class FranchisesFormComponent {
   private franchisesService = inject(FranchisesService);
 
   /****************************************** Inputs ******************************************/
-  id = input<Franchise['id'] | null>(null);
+  id = input<Franchise["id"] | null>(null);
   showForm = input<boolean>(false);
 
   /****************************************** Outputs ******************************************/
-  @Output() hideForm = new EventEmitter();
+  @Output() refresh = new EventEmitter<void>();
+  @Output() hideForm = new EventEmitter<void>();
 
   /****************************************** Signals ******************************************/
-  requestStatus = signal<RequestStatus>('init');
-  statusMode = signal<StatusMode>('create');
+  requestStatus = signal<RequestStatus>("init");
+  statusMode = signal<StatusMode>("create");
   franquise = signal<Franchise | null>(null);
+  title = signal("Crear Franquicia");
 
   /****************************************** Properties ******************************************/
-  title = 'Crear Franquicia';
   form: FormGroup;
   errorNameFormControl = new MyErrorStateMatcher();
 
@@ -75,10 +76,8 @@ export class FranchisesFormComponent {
     effect(() => {
       const id = this.id();
       if (id) {
-        this.fetchData(id);
-        this.title = 'Detalle de Franquicia';
-        this.statusMode.set('detail');
-        this.form.controls['activeFormControl'].disable()
+        this.fetchData();
+        this.statusMode.set("detail");
       }
     });
   }
@@ -87,25 +86,23 @@ export class FranchisesFormComponent {
   /****** Build Form ******/
   private buildForm() {
     this.form = this.formBuilder.group({
-      nameFormControl: ['', [Validators.required]],
-      activeFormControl: [false]
+      nameFormControl: ["", [Validators.required]],
+      activeFormControl: [false],
     });
   }
 
   /****** Fetch Data ******/
-  fetchData(id: Franchise['id']) {
-    this.requestStatus.set('loading');
+  fetchData() {
+    this.requestStatus.set("loading");
+    const id = this.id() as Franchise["id"];
     this.franchisesService.get(id).subscribe({
       next: (res) => {
-        this.requestStatus.set('success');
-        this.franquise.set(res as Franchise)
-        this.form.patchValue({
-          nameFormControl: this.franquise()?.name,
-          activeFormControl: this.franquise()?.active
-        })
+        this.requestStatus.set("success");
+        this.franquise.set(res as Franchise);
+        this.patchData();
       },
       error: (err) => {
-        this.requestStatus.set('failed');
+        this.requestStatus.set("failed");
         console.error(err);
       },
     });
@@ -114,23 +111,72 @@ export class FranchisesFormComponent {
   /****** onSubmit ******/
   onSubmit() {
     if (!this.form.valid) return;
-    this.requestStatus.set('loading');
-    if (this.statusMode() === 'create') {
-      const dto: CreateFranchiseDto = {
-        name: this.form.get('nameFormControl')?.value,
-      };
-      this.franchisesService.create(dto).subscribe({
-        next: (res) => {
-          console.log(res);
-          this.requestStatus.set('success');
-          this.clear();
-        },
-        error: (err) => {
-          console.log(err);
-          this.requestStatus.set('failed');
-        },
-      });
+    this.requestStatus.set("loading");
+    if (this.statusMode() === "create") {
+      this.create();
+    } else {
+      this.update();
     }
+  }
+
+  /****** Create ******/
+  create() {
+    const dto: CreateFranchiseDto = {
+      name: this.form.get("nameFormControl")?.value,
+    };
+    this.franchisesService.create(dto).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.requestStatus.set("success");
+        this.clear();
+      },
+      error: (err) => {
+        console.log(err);
+        this.requestStatus.set("failed");
+      },
+    });
+  }
+
+  /****** Update ******/
+  update() {
+    const dto: UpdateFracchiseDto = {
+      name: this.form.get("nameFormControl")?.value,
+      active: this.form.get("activeFormControl")?.value,
+    };
+    this.franchisesService.update(this.id() as Franchise["id"], dto).subscribe({
+      next: () => {
+        this.requestStatus.set("success");
+        this.fetchData();
+        this.unsetEditMode()
+      },
+      error: (err) => {
+        console.error(err);
+        this.requestStatus.set("failed");
+      },
+    });
+  }
+
+  /****** Patch Data ******/
+  patchData() {
+    this.title.set("Detalle de Franquicia");
+    this.form.patchValue({
+      nameFormControl: this.franquise()?.name,
+      activeFormControl: this.franquise()?.active,
+    });
+    this.form.controls["activeFormControl"].disable();
+  }
+
+  /****** set Edit Mode ******/
+  setEditMode() {
+    this.title.set("Editar Franquicia");
+    this.statusMode.set("edit");
+    this.form.controls["activeFormControl"].enable();
+  }
+
+  /****** unset Edit Mode ******/
+  unsetEditMode() {
+    this.statusMode.set("detail");
+    this.patchData();
   }
 
   /****** Clear Form ******/
@@ -144,7 +190,8 @@ export class FranchisesFormComponent {
   /****** Close Form ******/
   close() {
     this.clear();
+    this.refresh.emit();
     this.hideForm.emit();
-    this.statusMode.set('create')
+    this.statusMode.set("create");
   }
 }
