@@ -10,6 +10,7 @@ import { MatListModule } from "@angular/material/list";
 import { MatTableModule } from "@angular/material/table";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
 
 @NgModule({
   declarations: [],
@@ -24,6 +25,7 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
     MatTableModule,
     MatPaginatorModule,
     MatCheckboxModule,
+    MatSnackBarModule,
   ],
   exports: [
     MatInputModule,
@@ -35,6 +37,7 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
     MatTableModule,
     MatPaginatorModule,
     MatCheckboxModule,
+    MatSnackBarModule,
   ],
 })
 export class MaterialModule {}

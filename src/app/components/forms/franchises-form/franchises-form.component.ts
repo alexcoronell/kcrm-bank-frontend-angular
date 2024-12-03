@@ -17,6 +17,7 @@ import {
 
 /* Services */
 import { FranchisesService } from "../../../core/services/franchises.service";
+import { SnackMessageService } from '../../../core/services/snack-message.service';
 
 /* Modules */
 import { MaterialModule } from "../../../modules/material/material.module";
@@ -51,6 +52,7 @@ export class FranchisesFormComponent {
   /****************************************** Services ******************************************/
   private formBuilder = inject(FormBuilder);
   private franchisesService = inject(FranchisesService);
+  private snackMessageService = inject(SnackMessageService);
 
   /****************************************** Inputs ******************************************/
   id = input<Franchise["id"] | null>(null);
@@ -129,10 +131,12 @@ export class FranchisesFormComponent {
         console.log(res);
         this.requestStatus.set("success");
         this.clear();
+        this.snackMessageService.success("Franquicia creada correctamente")
       },
       error: (err) => {
         console.log(err);
         this.requestStatus.set("failed");
+        this.snackMessageService.error("Franquicia no pudo ser creada")
       },
     });
   }
@@ -148,10 +152,12 @@ export class FranchisesFormComponent {
         this.requestStatus.set("success");
         this.fetchData();
         this.unsetEditMode()
+        this.snackMessageService.success("Franquicia actualizada correctamente")
       },
       error: (err) => {
         console.error(err);
         this.requestStatus.set("failed");
+        this.snackMessageService.error("Franquicia no pudo ser actualizada")
       },
     });
   }

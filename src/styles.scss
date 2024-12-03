@@ -67,3 +67,10 @@ body {
 .danger {
   background-color: #B00020 !important;
 }
+
+.error-snackbar {
+  background-color: #f44336 !important; /* Rojo */
+  color: white !important;
+  font-weight: bold !important;
+  text-align: center !important;
+}
